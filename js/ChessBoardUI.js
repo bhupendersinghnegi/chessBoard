@@ -1,6 +1,6 @@
 // All the changes on board UI will be done from here
-import { boardContainer } from "./Controller.js";
-import { boardPieces, playerInformation, selectedPlayerHandler } from "./GameJson.js";
+import { boardContainer, howWin } from "./Controller.js";
+import { boardPieces, selectedPlayerHandler } from "./GameJson.js";
 
 // This function will do all the logical work of selection of any element
 function elementsSelectedHandler({ selectedElement, elements }) {
@@ -37,6 +37,8 @@ function resetSelectionHandler() {
 function ChessBoardUI({ boardSize, container, leftBoardContainer, rightBoardContainer }) {
     // Reset the board before doing anything
     Array.from(container.children).forEach(tag => tag.remove());
+    Array.from(leftBoardContainer.children).forEach(tag => tag.remove());
+    Array.from(rightBoardContainer.children).forEach(tag => tag.remove());
     const boardUI = document.createDocumentFragment();
     const leftBoardUI = document.createDocumentFragment();
     const rightBoardUI = document.createDocumentFragment();
@@ -92,17 +94,20 @@ function ChessBoardUI({ boardSize, container, leftBoardContainer, rightBoardCont
 }
 
 // This function will move the player from one point to second point
-function movePicesHander({ oldLocation, newLocation }) {
+function movePiceHandler({ oldLocation, newLocation }) {
     const row = newLocation.split("_")[0];
     const column = newLocation.split("_")[1];
     const oldLocationTag = boardContainer.querySelector(`.row[data-row="${oldLocation.split("_")[0]}"] .column[data-column="${oldLocation.split("_")[1]}"]`)
     const newLocationTag = boardContainer.querySelector(`.row[data-row="${row}"] .column[data-column="${column}"]`)
 
+    const deletedPlayerType = newLocationTag.dataset.playertype;
+    const deletedTeam = newLocationTag.dataset.team;
+    
     // Remove old pices
     Array.from(oldLocationTag.children).forEach(tag => tag.remove());
-    delete oldLocationTag.dataset.team
-    delete oldLocationTag.dataset.pieceonboard
-    delete oldLocationTag.dataset.playertype
+    delete oldLocationTag.dataset.team;
+    delete oldLocationTag.dataset.pieceonboard;
+    delete oldLocationTag.dataset.playertype;
     oldLocationTag.classList.remove("hasPiecs");
 
     // Add new pices
@@ -130,6 +135,15 @@ function movePicesHander({ oldLocation, newLocation }) {
     // Clean the selection
     resetSelectionHandler();
     selectedPlayerHandler({ pieceMoves: null });
+
+    // If deletedPlayerType is king then game over
+    console.log(deletedPlayerType)
+    if (deletedPlayerType === "king") {
+        const winner = deletedTeam === "black_team" ? 2 : 1;
+        const player = howWin.querySelector(".player")
+        player.textContent = winner;
+        howWin.classList.add("active");
+    }
 }
 
 // This function will select all the board elements from left to right
@@ -197,23 +211,119 @@ function topLeftToBottomRightHandler({ selectedElement }) {
 }
 
 // This function will select all the board elements from top right to bottom left
-// This function has all the movment information of king
+// This function has all the movement information of king
 function kingHandler({ selectedElement }) {
+    const rowNumber = +selectedElement.closest(".row").dataset.row;
+    const columnNumber = +selectedElement.closest(".column").dataset.column;
+    const elements = {
+        "toTopLeft": [`${rowNumber - 1}_${columnNumber - 1}`],
+        "toTop": [`${rowNumber - 1}_${columnNumber}`],
+        "toTopRight": [`${rowNumber - 1}_${columnNumber + 1}`],
+        "toCurrentLeft": [`${rowNumber}_${columnNumber - 1}`],
+        "toCurrentRight": [`${rowNumber}_${columnNumber + 1}`],
+        "toBottomLeft": [`${rowNumber + 1}_${columnNumber - 1}`],
+        "toBottom": [`${rowNumber + 1}_${columnNumber}`],
+        "toBottomRight": [`${rowNumber + 1}_${columnNumber + 1}`],
+    };
 
+    Object.entries(elements).forEach(([key, value]) => {
+        const tamp = { [key]: [] };
+        const isEvery = value.every(tag => {
+            const row = tag.split("_")[0];
+            const column = tag.split("_")[1];
+            const isTag = document.querySelector(`.mainBoard .row[data-row="${row}"] .column[data-column="${column}"]`);
+            if (isTag) {
+                tamp[key].push(isTag);
+                return true
+            }
+            return false;
+        })
+        if (!isEvery) {
+            elements[key] = [];
+            return null;
+        }
+        elements[key] = tamp[key];
+    });
+
+    elementsSelectedHandler({ selectedElement, elements });
 }
-// This function has all the movment information of knight
+// This function has all the movement information of knight
 function knightHandler({ selectedElement }) {
+    const rowNumber = +selectedElement.closest(".row").dataset.row;
+    const columnNumber = +selectedElement.closest(".column").dataset.column;
+    const elements = {
+        "toTopLeft": [
+            `${rowNumber - 1}_${columnNumber}`,
+            `${rowNumber - 2}_${columnNumber}`,
+            `${rowNumber - 2}_${columnNumber - 1}`,
+        ],
+        "toTopRight": [
+            `${rowNumber - 1}_${columnNumber}`,
+            `${rowNumber - 2}_${columnNumber}`,
+            `${rowNumber - 2}_${columnNumber + 1}`,
+        ],
+        "toCurrentTopLeft": [
+            `${rowNumber}_${columnNumber - 1}`,
+            `${rowNumber}_${columnNumber - 2}`,
+            `${rowNumber - 1}_${columnNumber - 2}`,
+        ],
+        "toCurrentBottomLeft": [
+            `${rowNumber}_${columnNumber - 1}`,
+            `${rowNumber}_${columnNumber - 2}`,
+            `${rowNumber + 1}_${columnNumber - 2}`,
+        ],
+        "toCurrentTopRight": [
+            `${rowNumber}_${columnNumber + 1}`,
+            `${rowNumber}_${columnNumber + 2}`,
+            `${rowNumber - 1}_${columnNumber + 2}`,
+        ],
+        "toCurrentBottomRight": [
+            `${rowNumber}_${columnNumber + 1}`,
+            `${rowNumber}_${columnNumber + 2}`,
+            `${rowNumber + 1}_${columnNumber + 2}`,
+        ],
+        "toBottomLeft": [
+            `${rowNumber + 1}_${columnNumber}`,
+            `${rowNumber + 2}_${columnNumber}`,
+            `${rowNumber + 2}_${columnNumber - 1}`,
+        ],
+        "toBottomRight": [
+            `${rowNumber + 1}_${columnNumber}`,
+            `${rowNumber + 2}_${columnNumber}`,
+            `${rowNumber + 2}_${columnNumber + 1}`,
+        ],
+    };
 
+    Object.entries(elements).forEach(([key, value]) => {
+        const tamp = { [key]: [] };
+        const isEvery = value.every(tag => {
+            const row = tag.split("_")[0];
+            const column = tag.split("_")[1];
+            const isTag = document.querySelector(`.mainBoard .row[data-row="${row}"] .column[data-column="${column}"]`);
+            if (isTag) {
+                tamp[key].push(isTag);
+                return true
+            }
+            return false;
+        })
+        if (!isEvery) {
+            elements[key] = [];
+            return null;
+        }
+        elements[key] = [tamp[key][2]];
+    });
+
+    elementsSelectedHandler({ selectedElement, elements });
 }
 
-// This function has all the movment information of pawn
+// This function has all the movement information of pawn
 function pawnHandler({ selectedElement }) {
     const columnNumber = +selectedElement.dataset.column;
     console.log(boardPieces[selectedElement.dataset.pieceonboard])
     const pieceOnBoard = boardPieces[selectedElement.dataset.pieceonboard]["isActive"] ? 1 : 2;
     let rowNumber = +selectedElement.closest('.row').dataset.row;
     const team = selectedElement.dataset.team;
-    const elements = { "toForword": [], "toForwordRight": [], "toForwordLeft": [] };
+    const elements = { "toForward": [], "toForwardRight": [], "toForwardLeft": [] };
     for (let index = 1; index <= pieceOnBoard; index++) {
         const rowIndex = team === "white_team" ? rowNumber - index : rowNumber + index;
         const selectedRow = boardContainer.querySelector(`.boardContainer .row[data-row="${rowIndex}"]`);
@@ -222,7 +332,7 @@ function pawnHandler({ selectedElement }) {
             return null;
         }
         // Logic for pawn
-        // 1. Go forword not if anyone there already.
+        // 1. Go Forward not if anyone there already.
         // 2. Check right and left if oposite team there just add theme also.
         const rightPices = `${rowIndex}_${columnNumber + 1}`;
         const LeftPices = `${rowIndex}_${columnNumber - 1}`;
@@ -234,14 +344,14 @@ function pawnHandler({ selectedElement }) {
 
         if (leftSelectedColumn && boardPieces.hasOwnProperty(LeftPices) &&
             boardPieces[LeftPices]["pieceInfo"]["team"] !== boardPieces[currentPices]["pieceInfo"]["team"]) {
-            elements["toForwordRight"].push(leftSelectedColumn);
+            elements["toForwardRight"].push(leftSelectedColumn);
         }
         if (rightSelectedColumn && boardPieces.hasOwnProperty(rightPices) &&
             boardPieces[rightPices]["pieceInfo"]["team"] !== boardPieces[currentPices]["pieceInfo"]["team"]) {
-            elements["toForwordLeft"].push(rightSelectedColumn);
+            elements["toForwardLeft"].push(rightSelectedColumn);
         }
         if (selectedColumn && !boardPieces.hasOwnProperty(`${rowIndex}_${columnNumber}`)) {
-            elements["toForword"].push(selectedColumn);
+            elements["toForward"].push(selectedColumn);
         }
     }
     elementsSelectedHandler({ selectedElement, elements });
@@ -276,9 +386,6 @@ function topRightToBottomLeftHandler({ selectedElement }) {
 }
 
 export {
-    ChessBoardUI, resetSelectionHandler, leftToRightHandler,
-    topToBottomHandler,
-    topLeftToBottomRightHandler,
-    pawnHandler,
-    topRightToBottomLeftHandler, movePicesHander
+    ChessBoardUI, kingHandler, knightHandler, leftToRightHandler, movePiceHandler, pawnHandler, resetSelectionHandler, topLeftToBottomRightHandler, topRightToBottomLeftHandler, topToBottomHandler
 };
+
