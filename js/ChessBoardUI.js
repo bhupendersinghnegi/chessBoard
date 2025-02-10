@@ -318,7 +318,7 @@ function knightHandler({ selectedElement }) {
 
 // This function has all the movement information of pawn
 function pawnHandler({ selectedElement }) {
-    const columnNumber = +selectedElement.dataset.column; 
+    const columnNumber = +selectedElement.dataset.column;
     const pieceOnBoard = boardPieces[selectedElement.dataset.pieceonboard]["isActive"] ? 1 : 2;
     let rowNumber = +selectedElement.closest('.row').dataset.row;
     const team = selectedElement.dataset.team;
@@ -341,11 +341,11 @@ function pawnHandler({ selectedElement }) {
         const leftSelectedColumn = selectedRow.querySelector(`.column[data-column="${columnNumber - 1}"]`);
 
 
-        if (leftSelectedColumn && boardPieces.hasOwnProperty(LeftPices) &&
+        if (pieceOnBoard == 1 && leftSelectedColumn && boardPieces.hasOwnProperty(LeftPices) &&
             boardPieces[LeftPices]["pieceInfo"]["team"] !== boardPieces[currentPices]["pieceInfo"]["team"]) {
             elements["toForwardRight"].push(leftSelectedColumn);
         }
-        if (rightSelectedColumn && boardPieces.hasOwnProperty(rightPices) &&
+        if (pieceOnBoard == 1 && rightSelectedColumn && boardPieces.hasOwnProperty(rightPices) &&
             boardPieces[rightPices]["pieceInfo"]["team"] !== boardPieces[currentPices]["pieceInfo"]["team"]) {
             elements["toForwardLeft"].push(rightSelectedColumn);
         }
