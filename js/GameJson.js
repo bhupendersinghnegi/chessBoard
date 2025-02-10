@@ -1,9 +1,12 @@
+import { ChessBoardUI } from "./ChessBoardUI.js";
+import { boardContainer, leftBoardContainer, rightBoardContainer } from "./Controller.js";
+
 let selectedPlayer = null;
 // This function will update selected player so when move is done right pices can move
 function selectedPlayerHandler({ pieceMoves }) {
     selectedPlayer = pieceMoves;
 }
-const playerInformation = {
+const playerInformationJSON = {
     "white_pawn": {
         team: "white_team",
         pieceName: "pawn",
@@ -90,7 +93,8 @@ const playerInformation = {
         imagePath: "./images/black-pawn.webp",
     },
 };
-const boardPieces = {
+let playerInformation = JSON.parse(JSON.stringify(playerInformationJSON));
+const boardPiecesJSON = {
     "7_1": {
         isActive: false,
         cuuruntLocation: "7_1",
@@ -255,6 +259,15 @@ const boardPieces = {
         pieceInfo: playerInformation["black_rook"]
     },
 }
+let boardPieces = JSON.parse(JSON.stringify(boardPiecesJSON));
+
+function resetBoardHandler() {
+    playerInformation = JSON.parse(JSON.stringify(playerInformationJSON));
+    boardPieces = JSON.parse(JSON.stringify(boardPiecesJSON));
+    selectedPlayer = null;
+
+    ChessBoardUI({ boardSize: 8, leftBoardContainer, rightBoardContainer, container: boardContainer });
+}
 
 const pieceMoves = {
     king: ["kingHandler"],
@@ -264,4 +277,5 @@ const pieceMoves = {
     rook: ["leftToRightHandler", "topToBottomHandler"],
     pawn: ["pawnHandler"]
 }
-export { playerInformation, pieceMoves, selectedPlayer, selectedPlayerHandler, boardPieces }
+export { boardPieces, pieceMoves, playerInformation, resetBoardHandler, selectedPlayer, selectedPlayerHandler };
+
