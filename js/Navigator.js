@@ -15,14 +15,15 @@ function Navigator() {
             const currentPiece = boardPieces[selectedPlayer];
             // Reset the boardPieces delete old  one and add now move
             const newLocation = `${rowNumber}_${columnNumber}`;
+            const deletedPlayer = boardPieces[newLocation] ? JSON.parse(JSON.stringify(boardPieces[newLocation])) : undefined;
             boardPieces[newLocation] = currentPiece;
             delete boardPieces[selectedPlayer];
 
             // Reset the board
-            chessBoardUI["movePiceHandler"]({ oldLocation: selectedPlayer, newLocation });
+            chessBoardUI["movePiceHandler"]({ oldLocation: selectedPlayer, newLocation, deletedPlayer });
         } else if (targetElement.closest(".resetGame")) {
             resetBoardHandler();
-        } else if (targetElement.closest(".hasPiecs")) { 
+        } else if (targetElement.closest(".hasPiecs")) {
             const mainBoard = targetElement.closest(".mainBoard");
 
             const column = targetElement.closest(".hasPiecs");

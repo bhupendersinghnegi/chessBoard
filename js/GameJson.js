@@ -101,165 +101,165 @@ let playerInformation = JSON.parse(JSON.stringify(playerInformationJSON));
 const boardPiecesJSON = {
     "7_1": {
         isActive: false,
-        cuuruntLocation: "7_1",
+        currentLocation: "7_1",
         pieceInfo: playerInformation["white_pawn"]
     },
     "7_2": {
         isActive: false,
-        cuuruntLocation: "7_2",
+        currentLocation: "7_2",
         pieceInfo: playerInformation["white_pawn"]
     },
     "7_3": {
         isActive: false,
-        cuuruntLocation: "7_3",
+        currentLocation: "7_3",
         pieceInfo: playerInformation["white_pawn"]
     },
     "7_4": {
         isActive: false,
-        cuuruntLocation: "7_4",
+        currentLocation: "7_4",
         pieceInfo: playerInformation["white_pawn"]
     },
     "7_5": {
         isActive: false,
-        cuuruntLocation: "7_5",
+        currentLocation: "7_5",
         pieceInfo: playerInformation["white_pawn"]
     },
     "7_6": {
         isActive: false,
-        cuuruntLocation: "7_6",
+        currentLocation: "7_6",
         pieceInfo: playerInformation["white_pawn"]
     },
     "7_7": {
         isActive: false,
-        cuuruntLocation: "7_7",
+        currentLocation: "7_7",
         pieceInfo: playerInformation["white_pawn"]
     },
     "7_8": {
         isActive: false,
-        cuuruntLocation: "7_8",
+        currentLocation: "7_8",
         pieceInfo: playerInformation["white_pawn"]
     },
 
     "8_1": {
         isActive: false,
-        cuuruntLocation: "8_1",
+        currentLocation: "8_1",
         pieceInfo: playerInformation["white_rook"]
     },
     "8_2": {
         isActive: false,
-        cuuruntLocation: "8_2",
+        currentLocation: "8_2",
         pieceInfo: playerInformation["white_left_knight"]
     },
     "8_3": {
         isActive: false,
-        cuuruntLocation: "8_3",
+        currentLocation: "8_3",
         pieceInfo: playerInformation["white_left_bishop"]
     },
     "8_4": {
         isActive: false,
-        cuuruntLocation: "8_4",
+        currentLocation: "8_4",
         pieceInfo: playerInformation["white_king"]
     },
     "8_5": {
         isActive: false,
-        cuuruntLocation: "8_5",
+        currentLocation: "8_5",
         pieceInfo: playerInformation["white_queen"]
     },
     "8_6": {
         isActive: false,
-        cuuruntLocation: "8_6",
+        currentLocation: "8_6",
         pieceInfo: playerInformation["white_right_bishop"]
     },
     "8_7": {
         isActive: false,
-        cuuruntLocation: "8_7",
+        currentLocation: "8_7",
         pieceInfo: playerInformation["white_right_knight"]
     },
     "8_8": {
         isActive: false,
-        cuuruntLocation: "8_8",
+        currentLocation: "8_8",
         pieceInfo: playerInformation["white_rook"]
     },
 
     "2_1": {
         isActive: false,
-        cuuruntLocation: "2_1",
+        currentLocation: "2_1",
         pieceInfo: playerInformation["black_pawn"]
     },
     "2_2": {
         isActive: false,
-        cuuruntLocation: "2_2",
+        currentLocation: "2_2",
         pieceInfo: playerInformation["black_pawn"]
     },
     "2_3": {
         isActive: false,
-        cuuruntLocation: "2_3",
+        currentLocation: "2_3",
         pieceInfo: playerInformation["black_pawn"]
     },
     "2_4": {
         isActive: false,
-        cuuruntLocation: "2_4",
+        currentLocation: "2_4",
         pieceInfo: playerInformation["black_pawn"]
     },
     "2_5": {
         isActive: false,
-        cuuruntLocation: "2_5",
+        currentLocation: "2_5",
         pieceInfo: playerInformation["black_pawn"]
     },
     "2_6": {
         isActive: false,
-        cuuruntLocation: "2_6",
+        currentLocation: "2_6",
         pieceInfo: playerInformation["black_pawn"]
     },
     "2_7": {
         isActive: false,
-        cuuruntLocation: "2_7",
+        currentLocation: "2_7",
         pieceInfo: playerInformation["black_pawn"]
     },
     "2_8": {
         isActive: false,
-        cuuruntLocation: "2_8",
+        currentLocation: "2_8",
         pieceInfo: playerInformation["black_pawn"]
     },
 
     "1_1": {
         isActive: false,
-        cuuruntLocation: "1_1",
+        currentLocation: "1_1",
         pieceInfo: playerInformation["black_rook"]
     },
     "1_2": {
         isActive: false,
-        cuuruntLocation: "1_2",
+        currentLocation: "1_2",
         pieceInfo: playerInformation["black_left_knight"]
     },
     "1_3": {
         isActive: false,
-        cuuruntLocation: "1_3",
+        currentLocation: "1_3",
         pieceInfo: playerInformation["black_left_bishop"]
     },
     "1_5": {
         isActive: false,
-        cuuruntLocation: "1_5",
+        currentLocation: "1_5",
         pieceInfo: playerInformation["black_king"]
     },
     "1_4": {
         isActive: false,
-        cuuruntLocation: "1_4",
+        currentLocation: "1_4",
         pieceInfo: playerInformation["black_queen"]
     },
     "1_6": {
         isActive: false,
-        cuuruntLocation: "1_6",
+        currentLocation: "1_6",
         pieceInfo: playerInformation["black_right_bishop"]
     },
     "1_7": {
         isActive: false,
-        cuuruntLocation: "1_7",
+        currentLocation: "1_7",
         pieceInfo: playerInformation["black_right_knight"]
     },
     "1_8": {
         isActive: false,
-        cuuruntLocation: "1_8",
+        currentLocation: "1_8",
         pieceInfo: playerInformation["black_rook"]
     },
 }

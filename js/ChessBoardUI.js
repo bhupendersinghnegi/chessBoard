@@ -94,7 +94,7 @@ function ChessBoardUI({ boardSize, container, leftBoardContainer, rightBoardCont
 }
 
 // This function will move the player from one point to second point
-function movePiceHandler({ oldLocation, newLocation }) {
+function movePiceHandler({ oldLocation, newLocation, deletedPlayer }) {
     const row = newLocation.split("_")[0];
     const column = newLocation.split("_")[1];
     const oldLocationTag = boardContainer.querySelector(`.row[data-row="${oldLocation.split("_")[0]}"] .column[data-column="${oldLocation.split("_")[1]}"]`)
@@ -102,7 +102,7 @@ function movePiceHandler({ oldLocation, newLocation }) {
 
     const deletedPlayerType = newLocationTag.dataset.playertype;
     const deletedTeam = newLocationTag.dataset.team;
-    
+
     // Remove old pices
     Array.from(oldLocationTag.children).forEach(tag => tag.remove());
     delete oldLocationTag.dataset.team;
@@ -120,10 +120,10 @@ function movePiceHandler({ oldLocation, newLocation }) {
     newLocationTag.dataset.playertype = pieceName;
     newLocationTag.classList.add("hasPiecs");
 
-    // If it's a player
+    // If it's a player 
     Array.from(newLocationTag.children).forEach(tag => {
-        const rowNumber = tag.closest('.row').dataset.row;
-        const columnNumber = tag.closest('.column').dataset.column;
+        const rowNumber = deletedPlayer ? deletedPlayer["currentLocation"].split("_")[0] : tag.closest('.row').dataset.row;
+        const columnNumber = deletedPlayer ? deletedPlayer["currentLocation"].split("_")[1] : tag.closest('.column').dataset.column;
         const boarSide = team === "white_team" ? ".leftBoard" : ".rightBoard";
         const deleteLeftColumn = document.querySelector(`${boarSide} .row[data-row="${rowNumber}"] .column[data-column="${columnNumber}"]`);
         deleteLeftColumn?.classList.add("bg-selected");
@@ -318,8 +318,7 @@ function knightHandler({ selectedElement }) {
 
 // This function has all the movement information of pawn
 function pawnHandler({ selectedElement }) {
-    const columnNumber = +selectedElement.dataset.column;
-    console.log(boardPieces[selectedElement.dataset.pieceonboard])
+    const columnNumber = +selectedElement.dataset.column; 
     const pieceOnBoard = boardPieces[selectedElement.dataset.pieceonboard]["isActive"] ? 1 : 2;
     let rowNumber = +selectedElement.closest('.row').dataset.row;
     const team = selectedElement.dataset.team;
