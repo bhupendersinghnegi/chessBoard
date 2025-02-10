@@ -1,10 +1,10 @@
 // This is the file that will control all the event that will happened in the application
 import * as chessBoardUI from "./ChessBoardUI.js";
-import { boardPieces, pieceMoves, resetBoardHandler, selectedPlayer } from "./GameJson.js";
+import { boardPieces, pieceMoves, resetBoardHandler, selectedPlayer, whoIsPlaying } from "./GameJson.js";
 
 
 function Navigator() {
-    document.addEventListener("click", (Event) => { 
+    document.addEventListener("click", (Event) => {
         const targetElement = Event.target;
         if (targetElement.closest(".bg-selected")) {
             const mainBoard = targetElement.closest(".mainBoard");
@@ -22,12 +22,14 @@ function Navigator() {
             chessBoardUI["movePiceHandler"]({ oldLocation: selectedPlayer, newLocation });
         } else if (targetElement.closest(".resetGame")) {
             resetBoardHandler();
-        } else if (targetElement.closest(".hasPiecs")) {
+        } else if (targetElement.closest(".hasPiecs")) { 
             const mainBoard = targetElement.closest(".mainBoard");
-            if (!mainBoard) { return null; }
+
             const column = targetElement.closest(".hasPiecs");
             const playerType = column.dataset.playertype;
+            const team = column.dataset.team;
             chessBoardUI["resetSelectionHandler"]();
+            if (!mainBoard || team == whoIsPlaying) { return null; }
             // Call all the function that this piece can take
             pieceMoves[playerType].forEach(pieceFunction => {
                 chessBoardUI[pieceFunction]({ selectedElement: column });

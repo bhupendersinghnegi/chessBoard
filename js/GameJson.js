@@ -2,6 +2,10 @@ import { ChessBoardUI } from "./ChessBoardUI.js";
 import { boardContainer, leftBoardContainer, rightBoardContainer } from "./Controller.js";
 
 let selectedPlayer = null;
+let whoIsPlaying=null;
+function whoIsPlayingHandler({ player }) {
+    whoIsPlaying = player;
+}
 // This function will update selected player so when move is done right pices can move
 function selectedPlayerHandler({ pieceMoves }) {
     selectedPlayer = pieceMoves;
@@ -277,5 +281,8 @@ const pieceMoves = {
     rook: ["leftToRightHandler", "topToBottomHandler"],
     pawn: ["pawnHandler"]
 }
-export { boardPieces, pieceMoves, playerInformation, resetBoardHandler, selectedPlayer, selectedPlayerHandler };
+export {
+    boardPieces, pieceMoves, playerInformation, resetBoardHandler, selectedPlayer, selectedPlayerHandler, whoIsPlaying,
+    whoIsPlayingHandler
+};
 

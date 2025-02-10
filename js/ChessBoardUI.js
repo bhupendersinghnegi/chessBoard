@@ -1,6 +1,6 @@
 // All the changes on board UI will be done from here
 import { boardContainer, howWin } from "./Controller.js";
-import { boardPieces, selectedPlayerHandler } from "./GameJson.js";
+import { boardPieces, selectedPlayerHandler, whoIsPlayingHandler } from "./GameJson.js";
 
 // This function will do all the logical work of selection of any element
 function elementsSelectedHandler({ selectedElement, elements }) {
@@ -135,9 +135,9 @@ function movePiceHandler({ oldLocation, newLocation }) {
     // Clean the selection
     resetSelectionHandler();
     selectedPlayerHandler({ pieceMoves: null });
+    whoIsPlayingHandler({ player: team });
 
-    // If deletedPlayerType is king then game over
-    console.log(deletedPlayerType)
+    // If deletedPlayerType is king then game over 
     if (deletedPlayerType === "king") {
         const winner = deletedTeam === "black_team" ? 2 : 1;
         const player = howWin.querySelector(".player")
